@@ -2,7 +2,8 @@ FROM ubuntu:16.04
 
 RUN apt-get update &&                          \
     apt-get install -y --no-install-recommends \
-        vim
+        vim                                    \
+        sudo
 
 ## Switch to non-root user 
 ARG uid

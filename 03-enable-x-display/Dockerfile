@@ -2,7 +2,9 @@ FROM ubuntu:16.04
 
 RUN apt-get update &&                          \
     apt-get install -y --no-install-recommends \
-        gvim
+        vim                                    \
+        gvim                                   \
+        sudo
 
 ## Setup language (optional)
 ENV LANG C.UTF-8
