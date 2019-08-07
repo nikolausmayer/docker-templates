@@ -11,7 +11,7 @@ set -u
 
 ## Setup X authority such that the container knows how to do graphical stuff
 XSOCK="/tmp/.X11-unix";
-XAUTH=`tempfile -s .docker.xauth`;
+XAUTH=`mktemp --suffix .docker.xauth`;
 xauth nlist "${DISPLAY}"          \
   | sed -e 's/^..../ffff/'        \
   | xauth -f "${XAUTH}" nmerge -;
@@ -22,6 +22,6 @@ docker run                        \
   --volume "${XAUTH}:${XAUTH}:rw" \
   --env "XAUTHORITY=${XAUTH}"     \
   --env DISPLAY                   \
-  --hostname "${HOSTNAME}"        \
+  --hostname "`hostname`"         \
   -it docker-example /bin/bash;
 

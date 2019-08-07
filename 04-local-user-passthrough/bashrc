@@ -1,4 +1,0 @@
-
-# Just an alias such that the file is not empty...
-alias ll='ls -alFh';
-
