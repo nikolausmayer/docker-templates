@@ -17,5 +17,5 @@ How to enable graphical displays in a container; useful for GUI applications.
 By default, Docker runs with a root user. This makes file exchange between the host and a container cumbersome. This example details how to "copy" the local user's ID into the container for frictionless data transfer.
 
 ## 05-nvidia-gpu-access
-Vanilla Docker makes using a host GPU difficult. NVidia has a special Docker runtime for this: (https://github.com/NVIDIA/nvidia-docker)[https://github.com/NVIDIA/nvidia-docker] This example shows how to use it.
+Vanilla Docker makes using a host GPU difficult. NVidia has a special Docker runtime for this: [https://github.com/NVIDIA/nvidia-docker](https://github.com/NVIDIA/nvidia-docker) This example shows how to use it.
 
