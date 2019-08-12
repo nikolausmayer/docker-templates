@@ -12,6 +12,8 @@ set -u
 docker run                        \
   --rm                            \
   --hostname "${HOSTNAME}"        \
-  --user `id -u`:`id -g`          \
-  -it docker-example /bin/bash;
+  --env uid=`id -u`               \
+  --env gid=`id -g`               \
+  --env USER="[Docker]$USER"      \
+  -it docker-example;
 

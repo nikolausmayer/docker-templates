@@ -1,23 +1,26 @@
-FROM ubuntu:16.04
+FROM ubuntu
 
 RUN apt-get update &&                          \
     apt-get install -y --no-install-recommends \
-        vim                                    \
         sudo
 
-## Switch to non-root user 
-ENV uid=999
-ENV gid=999
-ENV USER=genericuser
-RUN groupadd --gid $gid $USER                          && \
-    useradd --uid $uid --gid $gid --create-home $USER  && \
-    chmod o+rwX -R /home/${USER}
+ENV SCRIPT_BEGIN="\
+groupadd --gid \$gid \$USER; \n\
+useradd --uid \$uid --gid \$gid --create-home \$USER; \n\
+cp /root/.bashrc /home/\$USER; \n\
+chmod o+r /home/\$USER/.bashrc; \n"
 
-## This command enables SUDO rights (without password) for the new user
-RUN usermod --append --groups sudo $USER && \
-    echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+ENV SCRIPT_SUDO="\
+usermod --append --groups sudo \$USER; \n\
+echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers; \n"
 
-USER ${USER}
-ENV HOME=/home/${USER}
-WORKDIR ${HOME}
+ENV SCRIPT_END="\
+cd /home/\$USER; \n\
+sudo -H -u \$USER /bin/bash;"
+
+RUN echo "$SCRIPT_BEGIN" >  /makeuser.sh  && \
+    echo "$SCRIPT_SUDO"  >> /makeuser.sh  && \
+    echo "$SCRIPT_END"   >> /makeuser.sh
+
+ENTRYPOINT ["/bin/bash", "/makeuser.sh"]
 
